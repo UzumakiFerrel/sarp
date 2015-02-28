@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form>
+		<p:panel header="Cadastro de Embarques">
+			<p:panel style="text-align:right;">
+				<h:outputText value="Base : #{embarqueBean.logado.base.nome}" />
+				<br />
+				<h:outputText value="Usuário : #{embarqueBean.logado.nome}" />
+				<br />
+				<h:outputText
+					value="Rebocador : #{embarqueBean.tripulante.tripulacao.rebocador.nome}" />
+				<br />
+
+			</p:panel>
+			<p:messages>
+			</p:messages>
+
+			<p:panelGrid columns="4">
+				<p:outputLabel value="Funcionário"></p:outputLabel>
+				<p:outputLabel value="Empresa"></p:outputLabel>
+				<p:outputLabel value="Usuario"></p:outputLabel>
+				<p:outputLabel value="Documento"></p:outputLabel>
+
+
+				<p:selectOneMenu value="#{embarqueBean.embarque.usuario}"
+					converter="#{usuarioConverter}">
+
+					<f:selectItem itemLabel="" itemValue="" />
+
+					<f:selectItems value="#{embarqueBean.usuarioList}" var="usuario"
+						itemLabel="#{usuario.matricula} - #{usuario.nome}">
+					</f:selectItems>
+				</p:selectOneMenu>
+
+				<p:selectOneMenu value="#{embarqueBean.embarque.empresas}"
+					converter="#{empresasConverter}">
+
+					<f:selectItem itemLabel="" itemValue="" />
+
+					<f:selectItems value="#{empresasBean.empresasList}" var="empresas"
+						itemLabel="#{empresas.nome}" />
+				</p:selectOneMenu>
+
+
+				<p:autoComplete value="#{embarqueBean.embarque.usuario}"
+					converter="#{usuarioConverter}" var="usuario"
+					itemLabel="#{usuario.matricula} #{usuario.nome}"
+					completeMethod="#{embarqueBean.buscarTodosBase}" ></p:autoComplete>
+
+				<p:inputText value="#{embarqueBean.embarque.documento}" size="11"></p:inputText>
+
+			</p:panelGrid>
+
+
+
+			<p:panelGrid columns="2">
+
+				<p:panelGrid columns="3">
+
+					<f:facet name="header">Embarque</f:facet>
+					<p:outputLabel value="Local"></p:outputLabel>
+					<p:outputLabel value="Hora"></p:outputLabel>
+					<p:outputLabel value="Data"></p:outputLabel>
+
+					<p:selectOneMenu value="#{embarqueBean.embarque.localembarque}"
+						converter="#{locaisConverter}">
+
+						<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+							itemLabel="#{locais.cd_local} - #{locais.nome}">
+						</f:selectItems>
+					</p:selectOneMenu>
+
+					<p:inputMask value="#{embarqueBean.embarque.hrembarque}" size="5"
+						mask="99:99"></p:inputMask>
+					<p:inputMask value="#{embarqueBean.embarque.embarque}" size="8"
+						mask="99/99/9999"></p:inputMask>
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="3">
+
+					<f:facet name="header">Desenbarque</f:facet>
+
+					<p:outputLabel value="Local"></p:outputLabel>
+					<p:outputLabel value="Hora"></p:outputLabel>
+					<p:outputLabel value="Data"></p:outputLabel>
+
+
+					<p:selectOneMenu value="#{embarqueBean.embarque.localdesenbarque}"
+						converter="#{locaisConverter}">
+
+						<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+							itemLabel="#{locais.cd_local} - #{locais.nome}">
+						</f:selectItems>
+					</p:selectOneMenu>
+
+					<p:inputMask value="#{embarqueBean.embarque.hrdesenbarque}"
+						size="4" mask="99:99"></p:inputMask>
+					<p:inputMask value="#{embarqueBean.embarque.desenbarque}" size="8"
+						mask="99/99/9999"></p:inputMask>
+
+
+				</p:panelGrid>
+
+				<f:facet name="footer">
+
+					<p:commandButton value="Salvar" action="#{embarqueBean.salvar}"
+						update="@form"></p:commandButton>
+
+				</f:facet>
+
+			</p:panelGrid>
+
+		</p:panel>
+
+		<p:panel header="Lista de Embarques">
+
+			<p:dataTable value="#{embarqueBean.embarqueList}" var="embarque">
+
+				<p:column headerText="Empresa">
+					<h:outputText value="#{embarque.empresas.nome}" />
+				</p:column>
+
+				<p:column headerText="Tripulante">
+					<h:outputText value="#{embarque.usuario.nome}" />
+				</p:column>
+				<p:column headerText="Local Embarque">
+					<h:outputText value="#{embarque.localembarque.nome}" />
+				</p:column>
+				<p:column headerText="Hora Embarque">
+					<h:outputText value="#{embarque.hrembarque}" />
+				</p:column>
+				<p:column headerText="Data Embarque">
+					<h:outputText value="#{embarque.embarque}" />
+				</p:column>
+				<p:column headerText="Local Desenbarque">
+					<h:outputText value="#{embarque.localdesenbarque.nome}" />
+				</p:column>
+				<p:column headerText="Hora Desenbarque">
+					<h:outputText value="#{embarque.hrdesenbarque}" />
+				</p:column>
+				<p:column headerText="Data Desenbarque">
+					<h:outputText value="#{embarque.desenbarque}" />
+				</p:column>
+
+				<p:column headerText="Ação">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						update="@form">
+
+						<f:setPropertyActionListener value="#{embarque}"
+							target="#{embarqueBean.embarque}" />
+
+					</p:commandButton>
+
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="confirmacao.show()">
+
+						<f:setPropertyActionListener value="#{embarque}"
+							target="#{embarqueBean.embarque}" />
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Tem certeza que deseja excluir ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{embarqueBean.excluir}"
+					onclick="confirmacao.hide()" update="@form" process="@this "></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</p:panel>
+
+	</h:form>
+
+</body>
+</html>
+
+
+
+
+

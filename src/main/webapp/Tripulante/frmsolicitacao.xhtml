@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form>
+		<p:panel header="Solicitação de Serviço">
+			<p:panel style="text-align:right;">
+				<h:outputText
+					value="Base : #{solicitacaoServicoBean.logado.base.nome}" />
+				<br />
+				<h:outputText
+					value="Usuário : #{solicitacaoServicoBean.logado.nome}" />
+				<br />
+				<h:outputText
+					value="Rebocador : #{solicitacaoServicoBean.tripulante.tripulacao.rebocador.nome}" />
+				<br />
+			</p:panel>
+
+			<p:messages>
+			</p:messages>
+
+			<p:panelGrid columns="8">
+				<h:outputLabel value="Solicitação" />
+				<p:inputText
+					value="#{solicitacaoServicoBean.solicitacaoServico.num_sserv}"></p:inputText>
+				<h:outputLabel value="Seção" />
+				<p:selectOneMenu
+					value="#{solicitacaoServicoBean.solicitacaoServico.secao}"
+					converter="#{secaoConverter}">
+					<f:selectItem itemLabel="Selecione" />
+
+					<f:selectItems value="#{secaoBean.secaoList}" var="secao"
+						itemLabel="#{secao.nome}" />
+				</p:selectOneMenu>
+
+				<h:outputLabel value="Destino" />
+				<p:selectOneMenu
+					value="#{solicitacaoServicoBean.solicitacaoServico.cCustoDestino}"
+					converter="#{centroCustoConverter}">
+					<f:selectItem itemLabel="Selecione" />
+
+					<f:selectItems value="#{centroCustoBean.centroCustoList}"
+						var="ccusto"
+						itemLabel="#{ccusto.base.nome} - #{ccusto.setor.nome} #{ccusto.rebocador.nome}" />
+				</p:selectOneMenu>
+
+				<p:commandButton value="Salvar"
+					action="#{solicitacaoServicoBean.salvar}" update="@form"></p:commandButton>
+
+				<p:commandButton value="Cancelar"
+					action="#{solicitacaoServicoBean.CancelaItens}" update="@form"></p:commandButton>
+			</p:panelGrid>
+			<br />
+
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Serviço .:"></p:outputLabel>
+				
+				<p:outputLabel value="Aplicação .:"></p:outputLabel>
+
+				<p:autoComplete value="#{solicitacaoServicoBean.solicitacaoServico.servico}"
+					completeMethod="#{solicitacaoServicoBean.listServico}" var="servico"
+					itemLabel="#{servico.cd_servicos} - #{servico.descricao}"
+					itemValue="#{servico}" converter="#{servicosConverter}">
+				</p:autoComplete>
+
+				<p:selectOneMenu
+					value="#{solicitacaoServicoBean.solicitacaoServico.aplicacao}"
+					converter="#{aplicacaoServicosConverter}">
+					<f:selectItem itemLabel="Selecione" />
+
+					<f:selectItems value="#{aplicacaoServicosBean.aplicacaoServicosList}"
+						var="aplicacao" itemLabel="#{aplicacao.nome}" />
+
+				</p:selectOneMenu>
+			</p:panelGrid>
+
+			<f:facet name="footer">
+
+				<p:commandButton value="Incluir"
+					action="#{solicitacaoServicoBean.salvaItemRequisicao}"
+					update="@form"></p:commandButton>
+
+			</f:facet>
+
+		</p:panel>
+
+		<p:panel header="Serviço Solicitação">
+
+			<p:dataTable value="#{solicitacaoServicoBean.solicitacaoServico.servico}"
+				var="servico">
+
+				<p:column headerText="Código">
+					<h:outputText value="#{servico.servico.cd_servico}" />
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{servico.servico.descricao}" />
+				</p:column>
+
+				<p:column headerText="Ação">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						update="@form">
+
+						<f:setPropertyActionListener value="#{servico}"
+							target="#{solicitacaoServicoBean.solicitacaoServico.servico}" />
+
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="confirmacao.show()">
+
+						<f:setPropertyActionListener value="#{servico}"
+							target="#{solicitacaoServicoBean.servico}" />
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Tem certeza que deseja excluir ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{solicitacaoServicoBean.ExcluirItem}"
+					onclick="confirmacao.hide()" update="@form" process="@this "></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</p:panel>
+
+	</h:form>
+
+</body>
+</html>
+
+
+
+
+

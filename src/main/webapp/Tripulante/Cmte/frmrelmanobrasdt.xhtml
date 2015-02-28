@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="../../css/estilo.css" rel="stylesheet" type="text/css" />
+	<title>Sarp</title>
+</h:head>
+<body>
+	<h:form>
+
+		<div id="topo">
+
+			<div id="topo_direito">
+
+				<h:outputText value="Bem Vindo  #{manobrasBean.logado.nome} !" />
+
+				<br /> <a href="/login.xhtml">Alterar a Senha</a> <br />
+				<p:commandButton title="Sair" value="Sair" oncomplete="sair.show()"></p:commandButton>
+
+				<p:confirmDialog widgetVar="sair"
+					message="Tem certeza que deseja Sair ?" header="Aviso"
+					severity="alert" closable="true">
+
+					<p:commandButton title="sim" alt="Sim" value="sim"
+						actionListener="#{logoutBean.sair}" onclick="sair.hide()"
+						update="@form" process="@this "></p:commandButton>
+
+					<p:commandButton title="Nao" alt="Nao" value="nao"
+						onclick="sair.hide()"></p:commandButton>
+
+				</p:confirmDialog>
+
+			</div>
+
+			<div id="topo_centro">
+				<h2>SARP</h2>
+				<h4>Sistema de Automação de Rebocadores Portuário</h4>
+			</div>
+
+			<div id="topo_esquerdo">
+
+				<h:outputText value="Base : #{loginBean.usuario.base.nome}" />
+				<br />
+				<h:outputText value="Setor / Rebocador : #{loginBean.setor}" />
+				<br />
+
+				<h:outputText value="#{loginBean.dtlogin}" />
+				<br />
+
+			</div>
+
+		</div>
+
+		<div id="clear"></div>
+
+		<div id="msg">
+			<p:panel>
+				<p:messages>
+				</p:messages>
+			</p:panel>
+		</div>
+		<div id="formularios">
+
+			<p:panel header="Relatório Manobra por Período">
+
+				<p:panelGrid columns="5" styleClass="semBorda">
+					<p:outputLabel value="Período.:" styleClass="dtManobras"></p:outputLabel>
+
+					<p:calendar value="#{manobrasBean.dataInicio}" mode="popup"
+						showOn="button"></p:calendar>
+					<p:outputLabel value="a" styleClass="dtManobras"></p:outputLabel>
+
+					<p:calendar value="#{manobrasBean.dataFim}" mode="popup"
+						showOn="button"></p:calendar>
+
+					<p:commandButton value="Ir"
+						action="#{manobrasBean.listaManobrasPeriodo}" update="@form"></p:commandButton>
+				</p:panelGrid>
+
+				<p:dataTable value="#{manobrasBean.manobrasPeriodoList}"
+					var="manobras" styleClass="pg1">
+
+					<p:column headerText="Manobra" width="3">
+						<h:outputText value="#{manobras.cd_manobras}" />
+					</p:column>
+
+					<p:column headerText="Data" width="50" >
+						<h:outputText value="#{manobras.dia} / " />
+						<h:outputText value="#{manobras.mes} / " />
+						<h:outputText value="#{manobras.ano}" />
+					
+					</p:column>
+
+
+					<p:column headerText="Inicio" width="8">
+						<h:outputText value="#{manobras.inicio}" />
+					</p:column>
+
+					<p:column headerText="Fim" width="8">
+						<h:outputText value="#{manobras.fim}" />
+					</p:column>
+
+					<p:column headerText="Embarcação" width="8">
+						<h:outputText value="#{manobras.embarcacao.nome}" />
+					</p:column>
+
+					<p:column headerText="Local" width="8">
+						<h:outputText value="#{manobras.locais.nome}" />
+					</p:column>
+
+					<p:column headerText="Manobra" width="8">
+						<h:outputText value="#{manobras.tipoManobras.nome}" />
+					</p:column>
+
+					<p:column headerText="Prático" width="8">
+						<h:outputText value="#{manobras.pratico.nome}" />
+					</p:column>
+
+					<p:column headerText="Tempo Manobra" width="8">
+						<h:outputText value="#{manobras.tempoManobra} Min" />
+
+					</p:column>
+
+
+					<p:column headerText="Rebocadores" width="8">
+						<h:outputText value="#{manobras.rbAux01.nome} " />
+						<h:outputText value="#{manobras.rbAux02.nome} " />
+						<h:outputText value="#{manobras.rbAux03.nome} " />
+						<h:outputText value="#{manobras.rbAux04.nome}" />
+					</p:column>
+
+
+				</p:dataTable>
+
+			</p:panel>
+
+		</div>
+	</h:form>
+</body>
+</html>

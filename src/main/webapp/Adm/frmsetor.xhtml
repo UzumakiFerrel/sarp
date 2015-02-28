@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head></h:head>
+<body>
+
+	<h:form>
+	
+		<p:panel header="Cadastro de Setors">
+			<p:messages>
+			</p:messages>
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="Setor :"></p:outputLabel>
+				<p:inputText value="#{setorBean.setor.nome}"></p:inputText>
+
+			</p:panelGrid>
+
+			<p:commandButton value="Salvar" action="#{setorBean.salvar}"
+				update="@form"></p:commandButton>
+
+
+		</p:panel>
+
+		<p:panel header="Lista de Setores">
+			<p:dataTable value="#{setorBean.setorList}" var="setor">
+
+				<p:column headerText="Código">
+					<h:outputText value="#{setor.cd_setor}" />
+				</p:column>
+				<p:column headerText="Setor">
+					<h:outputText value="#{setor.nome}" />
+				</p:column>
+				
+					<p:column headerText="Ação">
+					<p:commandButton icon="ui-icon-pencil" title ="Editar"  update="@form">
+
+						<f:setPropertyActionListener value="#{setor}"
+							target="#{setorBean.setor}" />
+
+					</p:commandButton>
+
+
+					<p:commandButton icon="ui-icon-trash" title ="Excluir" oncomplete="confirmacao.show()">
+
+						<f:setPropertyActionListener value="#{setor}"
+							target="#{setorBean.setor}" />
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Tem certeza que deseja excluir ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{setorBean.excluir}"
+					onclick="confirmacao.hide()" update="@form" process="@this "></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</p:panel>
+
+	</h:form>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form>
+
+		<p:panel header="Cadastro de Categoria Maritimos">
+			<p:messages>
+			</p:messages>
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="Categoria :"></p:outputLabel>
+				<p:inputText value="#{categoriaMaritimoBean.categoriaMaritimo.nome}"></p:inputText>
+
+				<p:outputLabel value="Sigla :"></p:outputLabel>
+				<p:inputText
+					value="#{categoriaMaritimoBean.categoriaMaritimo.sigla}"></p:inputText>
+
+			</p:panelGrid>
+
+			<p:commandButton value="Salvar"
+				action="#{categoriaMaritimoBean.salvar}" update="@form"></p:commandButton>
+
+		</p:panel>
+
+		<p:panel header="Lista de Categorias">
+			<p:dataTable value="#{categoriaMaritimoBean.categoriaMaritimoList}"
+				var="categoriaMaritimo">
+
+				<p:column headerText="Código">
+					<h:outputText value="#{categoriaMaritimo.cd_categoria}" />
+				</p:column>
+				<p:column headerText="Categoria">
+					<h:outputText value="#{categoriaMaritimo.nome}" />
+				</p:column>
+
+				<p:column headerText="Sigla">
+					<h:outputText value="#{categoriaMaritimo.sigla}" />
+				</p:column>
+
+				<p:column headerText="Ação">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						update="@form">
+
+						<f:setPropertyActionListener value="#{categoriaMaritimo}"
+							target="#{categoriaMaritimoBean.categoriaMaritimo}" />
+
+					</p:commandButton>
+
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="confirmacao.show()">
+
+						<f:setPropertyActionListener value="#{categoriaMaritimo}"
+							target="#{categoriaMaritimoBean.categoriaMaritimo}" />
+
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Tem certeza que deseja excluir ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{categoriaMaritimoBean.excluir}"
+					onclick="confirmacao.hide()" update="@form" process="@this "></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</p:panel>
+
+	</h:form>
+
+</body>
+</html>

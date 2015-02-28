@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form>
+		<p:panel header="Cancelar Requisicao de Material">
+
+			<p:panel style="text-align:right;">
+				<h:outputText value="Base : #{requisicaoMaterialBean.logado.base.nome}" />
+				<br />
+				<h:outputText value="Usuário : #{requisicaoMaterialBean.logado.nome}" />
+				<br />
+				<h:outputText
+					value="Rebocador : #{requisicaoMaterialBean.tripulante.tripulacao.rebocador.nome}" />
+				<br />
+
+			</p:panel>
+
+			<p:messages>
+			</p:messages>
+</p:panel>
+
+		<p:panel header="Solicitações Material">
+
+			<p:dataTable value="#{requisicaoMaterialBean.requisicaoMaterialCancelarList}" var="requisicao">
+
+				<p:column headerText="Requisicao">
+					<h:outputText value="#{requisicao.num_req}" />
+				</p:column>
+
+				<p:column headerText="Data">
+					<h:outputText value="#{requisicao.data}" />
+				</p:column>
+
+				<p:column headerText="Origem">
+					<h:outputText value="#{requisicao.cCustoOrigem.setor.nome}" />
+				</p:column>
+
+
+				<p:column headerText="Ação">
+
+					<p:commandButton icon="ui-icon-pencil" title="Cancelar"
+						oncomplete="confirmacao.show()">
+
+						<f:setPropertyActionListener value="#{requisicao}"
+							target="#{requisicaoMaterialBean.requisicaoMaterial}" />
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Cancelar Remessa ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{requisicaoMaterialBean.cancelarRequisicaoSolicitacao}"
+					onclick="confirmacao.hide()" update="@form" process="@this "></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</p:panel>
+
+	</h:form>
+
+</body>
+</html>
+
+
+
+
+

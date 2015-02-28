@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="../css/estilo.css" rel="stylesheet" type="text/css" />
+	<title>Sarp</title>
+</h:head>
+<body>
+	<h:form>
+
+		<div id="topo">
+
+			<div id="topo_direito">
+
+				<h:outputText
+					value="Bem Vindo  #{cadastroInsumoBean.logado.nome} !!!"
+					styleClass="font-BemVindo" />
+				<br />
+				<p:commandButton title="Sair" value="Sair" oncomplete="sair.show()"></p:commandButton>
+
+				<p:confirmDialog widgetVar="sair"
+					message="Tem certeza que deseja Sair ?" header="Aviso"
+					severity="alert" closable="true">
+
+					<p:commandButton title="sim" alt="Sim" value="sim"
+						actionListener="#{logoutBean.sairIndex}" onclick="sair.hide()"
+						update="@form" process="@this "></p:commandButton>
+
+					<p:commandButton title="Nao" alt="Nao" value="nao"
+						onclick="sair.hide()"></p:commandButton>
+
+				</p:confirmDialog>
+
+			</div>
+
+			<div id="topo_centro">
+				<h2>SARP</h2>
+				<h4>Sistema de Automação de Rebocadores Portuário</h4>
+			</div>
+
+			<div id="topo_esquerdo">
+
+				<h:outputText value="Base : #{loginBean.usuario.base.nome}" />
+				<br />
+				<h:outputText value="Setor / Rebocador : #{loginBean.setor}" />
+				<br />
+
+				<h:outputText value="#{loginBean.dtlogin}" />
+				<br />
+
+			</div>
+
+		</div>
+
+		<div id="clear"></div>
+
+		<div id="msg">
+			<p:panel>
+				<p:messages>
+				</p:messages>
+			</p:panel>
+		</div>
+		<div id="menu">
+			<p:menubar>
+
+				<p:submenu label="Manobras">
+					<p:menuitem value="Mdb" url="../Tripulante/frmmanobras.xhtml"></p:menuitem>
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Período"
+							url="../Tripulante/frmrelmanobrasdt.xhtml"></p:menuitem>
+						<p:menuitem value="Base" url="../Tripulante/frmembarque.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Armador" url="../Tripulante/frmembarque.xhtml"
+							disabled="true"></p:menuitem>
+
+					</p:submenu>
+				</p:submenu>
+
+				<p:submenu label="Sgi">
+
+					<p:submenu label="Embarque">
+						<p:menuitem value="Pessoas a Bordo"
+							url="../Tripulante/frmembarque.xhtml"></p:menuitem>
+
+						<p:menuitem value="Programação H Extra"
+							url="../Tripulante/frmhextra.xhtml"></p:menuitem>
+
+						<p:submenu label="Relatórios">
+							<p:menuitem value="Período" url="../Tripulante/frmembarque.xhtml"
+								disabled="true"></p:menuitem>
+
+							<p:menuitem value="Tripulante"
+								url="../Tripulante/frmembarque.xhtml" disabled="true"></p:menuitem>
+
+							<p:menuitem value="Rebocador"
+								url="../Tripulante/frmembarque.xhtml" disabled="true"></p:menuitem>
+						</p:submenu>
+
+					</p:submenu>
+
+					<p:submenu label="Bandalho">
+						<p:menuitem value="Convés"
+							url="../Tripulante/frmbandalhoconves.xhtml"></p:menuitem>
+						<p:menuitem value="Máquinas"
+							url="../Tripulante/frmbandalhomaquinas.xhtml" disabled="true"></p:menuitem>
+					</p:submenu>
+
+					<p:submenu label="Passagem Serviço">
+						<p:submenu label="Comando">
+							<p:menuitem value="Gerar" url="../Tripulante/frmgrpcomando.xhtml"></p:menuitem>
+							<p:menuitem value="Receber"
+								url="../Tripulante/frmbxpcomando.xhtml"></p:menuitem>
+
+							<p:submenu label="Relátorios">
+								<p:menuitem value="Turno"
+									url="../Tripulante/frmrequisicao.xhtml" disabled="true"></p:menuitem>
+								<p:menuitem value="Período"
+									url="../Tripulante/frmrequisicao.xhtml" disabled="true"></p:menuitem>
+							</p:submenu>
+
+						</p:submenu>
+
+						<p:submenu label="Máquinas">
+							<p:menuitem value="Gerar" url="../Tripulante/frmrequisicao.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Receber"
+								url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+							<p:submenu label="Relátorios">
+								<p:menuitem value="Turno"
+									url="../Tripulante/frmrequisicao.xhtml" disabled="true"></p:menuitem>
+								<p:menuitem value="Período"
+									url="../Tripulante/frmrequisicao.xhtml" disabled="true"></p:menuitem>
+							</p:submenu>
+						</p:submenu>
+
+					</p:submenu>
+
+					<p:submenu label="Solicitações">
+						<p:submenu label="Material">
+							<p:menuitem value="Nova" url="../Tripulante/frmrequisicao.xhtml"></p:menuitem>
+							<p:menuitem value="Baixar"
+								url="../Tripulante/frmrequisicaobx.xhtml"></p:menuitem>
+							<p:menuitem value="Cancelar"
+								url="../Tripulante/frmrequisicaoesc.xhtml" disabled="true"></p:menuitem>
+
+						</p:submenu>
+
+						<p:submenu label="Serviços">
+							<p:menuitem value="Nova" url="../Tripulante/frmrequisicao.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Baixar"
+								url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="Cancelar"
+								url="../Tripulante/frmrequisicaoesc.xhtml" disabled="true"></p:menuitem>
+
+						</p:submenu>
+
+						<p:submenu label="Relatórios">
+
+							<p:submenu label="Material">
+								<p:menuitem value="Pendências"
+									url="../Tripulante/frmrlpendinsumo.xhtml"></p:menuitem>
+								<p:menuitem value="Período" disabled="true"
+									url="../Tripulante/frmrequisicaobx.xhtml"></p:menuitem>
+							</p:submenu>
+
+							<p:submenu label="Serviços">
+								<p:menuitem value="Pendências"
+									url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+								<p:menuitem value="Período"
+									url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+								<p:menuitem value="Espelho"
+									url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+
+							</p:submenu>
+
+						</p:submenu>
+					</p:submenu>
+
+					<p:submenu label="Remessa de Material">
+
+						<p:menuitem value="Transferência"
+							url="../Tripulante/frmremessatrf.xhtml"></p:menuitem>
+
+						<p:menuitem value="Solicitação de Material"
+							url="../Tripulante/frmremessasm.xhtml"></p:menuitem>
+
+						<p:menuitem value="Conserto" disabled="true"
+							url="../Tripulante/frmrequisicao.xhtml"></p:menuitem>
+
+						<p:submenu label="Relatórios">
+
+							<p:menuitem value="Período"
+								url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+						</p:submenu>
+
+					</p:submenu>
+
+					<p:submenu label="Inventário">
+						<p:menuitem value="Ajuste" url="../Tripulante/frmrequisicao.xhtml"
+							disabled="true"></p:menuitem>
+
+						<p:menuitem value="Relatórios"
+							url="../Tripulante/frmremessasm.xhtml" disabled="true"></p:menuitem>
+					</p:submenu>
+
+
+					<p:submenu label="Certificados">
+						<p:menuitem value="Cadastro"
+							url="../Tripulante/frmrequisicao.xhtml" disabled="true"></p:menuitem>
+
+						<p:menuitem value="Relatórios"
+							url="../Tripulante/frmremessasm.xhtml" disabled="true"></p:menuitem>
+					</p:submenu>
+
+
+
+				</p:submenu>
+
+				<p:submenu label="Operações">
+
+					<p:submenu label="Rebocadores">
+						<p:menuitem value="Cadastro" url="../Operacoes/frmrebocador.xhtml"></p:menuitem>
+						<p:submenu label="Relatórios">
+							<p:menuitem value="Base" url="../Operacoes/frmrebocador.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Situação"
+								url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+
+						</p:submenu>
+					</p:submenu>
+
+					<p:submenu label="Embarcações">
+						<p:menuitem value="Cadastro"
+							url="../Operacoes/frmembarcacoes.xhtml"></p:menuitem>
+						<p:submenu label="Relatórios">
+							<p:menuitem value="Armador"
+								url="../Operacoes/frmembarcacoes.xhtml" disabled="true"></p:menuitem>
+						</p:submenu>
+					</p:submenu>
+
+					<p:submenu label="Tripulantes">
+						<p:menuitem value="Cadastro"
+							url="../Operacoes/frmtripulante.xhtml"></p:menuitem>
+						<p:submenu label="Relatórios">
+							<p:menuitem value="Base" url="../Operacoes/frmrebocador.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Rebocador"
+								url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="Situação"
+								url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="Categoria"
+								url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+						</p:submenu>
+					</p:submenu>
+
+					<p:submenu label="Armador">
+						<p:menuitem value="Cadastro" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:submenu label="Relatórios">
+							<p:menuitem value="Relação" url="../Operacoes/frmrebocador.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Situação"
+								url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+
+						</p:submenu>
+					</p:submenu>
+
+					<p:submenu label="Diversos">
+						<p:submenu label="Cadastro">
+							<p:menuitem value="Prático" url="../Operacoes/frmrebocador.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Locais" url="../Operacoes/frmrebocador.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Manobras"
+								url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="Categoria Maritimo"
+								url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="" url="../Operacoes/frmrebocador.xhtml"
+								disabled="true"></p:menuitem>
+						</p:submenu>
+					</p:submenu>
+
+					<p:menuitem value="Programação"
+						url="../Operacoes/frmtripulante.xhtml" disabled="true"></p:menuitem>
+
+				</p:submenu>
+
+				<p:submenu label="Pessoal">
+
+					<p:menuitem value="Funcionário" url="../Adm/frmusuario.xhtml"></p:menuitem>
+					<p:menuitem value="Planilha Horas" url="../Adm/frmusuario.xhtml"
+						disabled="true"></p:menuitem>
+					<p:menuitem value="Ponto" url="../Adm/frmusuario.xhtml"
+						disabled="true"></p:menuitem>
+					<p:submenu label="Relatórios">
+
+					</p:submenu>
+
+				</p:submenu>
+
+				<p:submenu label="Manutenção">
+
+					<p:submenu label="Insumos">
+						<p:menuitem value="Cadastro"
+							url="../Manutencao/frmcadinsumo.xhtml"></p:menuitem>
+
+						<p:submenu label="Relatórios">
+							<p:menuitem value="Insumos"
+								url="../Manutencao/frmcadinsumo.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="Pendência"
+								url="../Manutencao/frmrlpendinsumo.xhtml"></p:menuitem>
+						</p:submenu>
+
+					</p:submenu>
+
+					<p:submenu label="Serviços">
+						<p:menuitem value="Cadastro"
+							url="../Manutencao/frmcadservicos.xhtml" disabled="true"></p:menuitem>
+
+						<p:submenu label="Relatórios">
+							<p:menuitem value="Servicos"
+								url="../Manutencao/frmcadinsumo.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="Pendência"
+								url="../Manutencao/frmrlpendinsumo.xhtml" disabled="true"></p:menuitem>
+						</p:submenu>
+
+					</p:submenu>
+
+				</p:submenu>
+
+				<p:submenu label="Gerência">
+					<p:submenu label="Relatórios Gerenciais">
+						<p:menuitem value="Consumo" url="../Manutencao/frmcadinsumo.xhtml"
+							disabled="true"></p:menuitem>
+
+						<p:submenu label="Manobras">
+							<p:menuitem value="Faturamento"
+								url="../Gerencia/frmrlmanobrasft.xhtml"></p:menuitem>
+							<p:menuitem value="Periodo"
+								url="../Tripulante/frmrelmanobrasdt.xhtml"></p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Solicitações">
+
+							<p:submenu label="Material">
+								<p:menuitem value="Pendências"
+									url="../Manutencao/frmrlpendinsumo.xhtml"></p:menuitem>
+								<p:menuitem value="Periodo"
+									url="../Manutencao/frmcadinsumo.xhtml" disabled="true"></p:menuitem>
+							</p:submenu>
+
+							<p:submenu label="Serviços">
+								<p:menuitem value="Pendências"
+									url="../Manutencao/frmcadinsumo.xhtml" disabled="true"></p:menuitem>
+								<p:menuitem value="Periodo"
+									url="../Manutencao/frmcadinsumo.xhtml" disabled="true"></p:menuitem>
+							</p:submenu>
+
+
+						</p:submenu>
+					</p:submenu>
+				</p:submenu>
+
+			</p:menubar>
+
+		</div>
+		<div id="formularios">
+			<p:panel header="Lista Pendências Insumos">
+
+				<p:panelGrid columns="5" styleClass="semBorda">
+
+					<h:outputText value="Centro de Custo" />
+					<p:selectOneMenu value="#{cadastroInsumoBean.cCusto}"
+						converter="#{centroCustoConverter}"
+						valueChangeListener="#{cadastroInsumoBean.gerarlistapendentes}">
+
+						<f:selectItem itemLabel="Selecione" />
+						<f:selectItems value="#{cadastroInsumoBean.cCustoLista}"
+							var="cCusto"
+							itemLabel="#{cCusto.setor.nome} #{cCusto.rebocador.nome}" />
+
+						<f:ajax event="change" render="listapendentes"></f:ajax>
+
+					</p:selectOneMenu>
+
+					<h:outputText value="Todos" />
+					<p:selectBooleanCheckbox value="#{cadastroInsumoBean.todos}"
+						valueChangeListener="#{cadastroInsumoBean.gerarlistapendentesbase}">
+
+						<f:ajax event="change" render="listapendentes"></f:ajax>
+
+					</p:selectBooleanCheckbox>
+
+					<p:commandButton value="Imprimir" ajax="false"
+						styleClass="text-align:right">
+						<p:dataExporter type="pdf" target="listapendentes"
+							fileName="Lista Insumos Pendentes"></p:dataExporter>
+					</p:commandButton>
+
+
+				</p:panelGrid>
+				<hr />
+
+				<br />
+
+				<p:dataTable value="#{cadastroInsumoBean.listaItensPendente}"
+					var="itempendente" id="listapendentes" styleClass="pg1">
+
+					<p:column headerText="Requisição" width="12">
+						<h:outputText value="#{itempendente.requisicao.num_req}" />
+					</p:column>
+
+					<p:column headerText="Item" width="10">
+						<h:outputText value="#{itempendente.insumo.cd_insumo}" />
+					</p:column>
+
+					<p:column headerText="Descrição Item">
+						<h:outputText value="#{itempendente.insumo.descricao}" />
+					</p:column>
+
+					<p:column headerText="Solicitação" width="18">
+						<h:outputText value="#{itempendente.requisicao.abertura}" />
+					</p:column>
+
+					<p:column headerText="Vencimento" width="18">
+						<h:outputText value="#{itempendente.requisicao.abertura}" />
+					</p:column>
+
+					<p:column headerText="Vencido" width="18">
+						<h:outputText value="#{itempendente.requisicao.abertura}" />
+					</p:column>
+
+					<p:column headerText="Solicitado">
+						<h:outputText value="#{itempendente.quantidade}" />
+					</p:column>
+
+					<p:column headerText="Pendente">
+						<h:outputText value="#{itempendente.pendente}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<br />
+			</p:panel>
+		</div>
+	</h:form>
+
+</body>
+</html>

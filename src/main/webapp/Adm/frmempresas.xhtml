@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form>
+		<p:panel header="Cadastro de Empresas">
+			<p:messages>
+			</p:messages>
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="Cnpj :"></p:outputLabel>
+				<p:inputText value="#{empresasBean.empresas.cnpj}"></p:inputText>
+
+				<p:outputLabel value="Nome :"></p:outputLabel>
+				<p:inputText value="#{empresasBean.empresas.nome}"></p:inputText>
+
+				<p:outputLabel value="Tipo :"></p:outputLabel>
+				<p:selectOneMenu value="#{empresasBean.empresas.tipoEmpresas}"
+					converter="#{tipoEmpresasConverter}">
+					<f:selectItems value="#{tipoEmpresasBean.tipoEmpresasList}"
+						var="tipoEmpresas" itemLabel="#{tipoEmpresas.nome}" />
+				</p:selectOneMenu>
+
+			</p:panelGrid>
+
+			<p:commandButton value="Salvar" action="#{empresasBean.salvar}"
+				update="@form"></p:commandButton>
+
+		</p:panel>
+
+		<p:panel header="Lista de Empresas">
+			<p:dataTable value="#{empresasBean.empresasList}" var="empresas">
+
+				<p:column headerText="Código">
+					<h:outputText value="#{empresas.cd_empresa}" />
+				</p:column>
+
+				<p:column headerText="Cnpj">
+					<h:outputText value="#{empresas.cnpj}" />
+				</p:column>
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{empresas.nome}" />
+				</p:column>
+
+				<p:column headerText="Ação">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						update="@form">
+
+						<f:setPropertyActionListener value="#{empresas}"
+							target="#{empresasBean.empresas}" />
+
+					</p:commandButton>
+
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="confirmacao.show()">
+
+						<f:setPropertyActionListener value="#{empresas}"
+							target="#{empresasBean.empresas}" />
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Tem certeza que deseja excluir ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{empresasBean.excluir}"
+					onclick="confirmacao.hide()" update="@form" process="@this "></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</p:panel>
+
+	</h:form>
+
+</body>
+</html>
+
+
+
+
+

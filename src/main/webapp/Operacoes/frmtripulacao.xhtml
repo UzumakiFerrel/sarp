@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+
+	<h:form>
+		<p:panel header="Cadastro de Tripulacao">
+			<p:messages>
+			</p:messages>
+
+			<p:panelGrid columns="2">
+
+				<p:outputLabel value="Base :"></p:outputLabel>
+
+				<p:selectOneMenu value="#{tripulacaoBean.tripulacao.rebocador.base}"
+					converter="#{baseConverter}">
+
+					<f:selectItems value="#{baseBean.baseList}" var="base"
+						itemLabel="#{base.nome}" itemvalue="#{base.cd_base}" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Rebocador :"></p:outputLabel>
+
+				<p:selectOneMenu value="#{tripulacaoBean.tripulacao.rebocador}"
+					converter="#{rebocadorConverter}">
+
+					<f:selectItems
+						value="#{rebocadorBean.rebocadorList}"
+						var="rebocador" itemLabel="#{rebocador.nome}"
+						itemvalue="#{rebocador}" />
+
+				</p:selectOneMenu>
+
+			</p:panelGrid>
+
+			<p:commandButton value="Salvar" action="#{tripulacaoBean.salvar}"
+				update="@form"></p:commandButton>
+
+		</p:panel>
+
+		<p:panel header="Lista de Tripulação">
+
+			<p:dataTable value="#{tripulacaoBean.tripulacaoList}"
+				var="tripulacao">
+
+				<p:column headerText="Tripulação">
+					<h:outputText value="#{tripulacao.cd_tripulacao}" />
+				</p:column>
+
+				<p:column headerText="Rebocador">
+					<h:outputText value="#{tripulacao.rebocador.nome}" />
+				</p:column>
+
+				<p:column headerText="Ação">
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						update="@form">
+
+						<f:setPropertyActionListener value="#{tripulacao}"
+							target="#{tripulacaoBean.tripulacao}" />
+
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="confirmacao.show()">
+
+						<f:setPropertyActionListener value="#{tripulacao}"
+							target="#{tripulacaoBean.tripulacao}" />
+					</p:commandButton>
+
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Tem certeza que deseja excluir ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{tripulacaoBean.excluir}"
+					onclick="confirmacao.hide()" update="@form" process="@this "></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</p:panel>
+
+	</h:form>
+
+</body>
+</html>

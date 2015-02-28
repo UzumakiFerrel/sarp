@@ -1,0 +1,712 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="../../css/estilo.css" rel="stylesheet" type="text/css" />
+	<title>Sarp</title>
+</h:head>
+<body>
+	<div id="topo">
+
+		<div id="topo_direito">
+
+			<h:outputText value="Bem Vindo  #{embarqueBean.logado.nome} !" />
+			<br /> <a href="/login.xhtml">Alterar a Senha</a> <br /> <a
+				href="#" onclick="confirmacao.show()">Sair (X)</a>
+
+			<p:confirmDialog widgetVar="confirmacao"
+				message="Tem certeza que deseja Sair ?" header="Aviso"
+				severity="alert" closable="true">
+
+				<p:commandButton title="sim" alt="Sim" value="sim"
+					actionListener="#{logoutBean.sair}" onclick="confirmacao.hide()"></p:commandButton>
+				<p:commandButton title="Nao" alt="Nao" value="nao"
+					onclick="confirmacao.hide()"></p:commandButton>
+
+			</p:confirmDialog>
+
+		</div>
+
+		<div id="topo_centro">
+			<h2>SARP</h2>
+			<h4>Sistema de Automação de Rebocadores Portuário</h4>
+		</div>
+
+		<div id="topo_esquerdo">
+
+			<h:outputText value="Base : #{loginBean.usuario.base.nome}" />
+			<br />
+			<h:outputText value="Setor / Rebocador : #{loginBean.setor}" />
+			<br />
+
+			<h:outputText value="#{loginBean.dtlogin}" />
+			<br />
+
+		</div>
+
+	</div>
+
+	<div id="clear"></div>
+
+	<div id="menu">
+		<p:menubar>
+
+			<p:submenu label="Manobras">
+				<p:menuitem value="Mdb" url="../Tripulante/Cmte/frmembarque.xhtml"></p:menuitem>
+				<p:submenu label="Relatórios">
+					<p:menuitem value="Período"
+						url="../Tripulante/Cmte/frmembarque.xhtml"></p:menuitem>
+					<p:menuitem value="Base" url="../Tripulante/Cmte/frmembarque.xhtml"
+						disabled="true"></p:menuitem>
+					<p:menuitem value="Armador"
+						url="../Tripulante/Cmte/frmembarque.xhtml" disabled="true"></p:menuitem>
+
+				</p:submenu>
+			</p:submenu>
+
+			<p:submenu label="Sgi">
+
+				<p:submenu label="Embarque">
+					<p:menuitem value="Tripulante"
+						url="../Tripulante/Cmte/frmembarque.xhtml"></p:menuitem>
+					<p:menuitem value="Programação H Extra"
+						url="../Tripulante/Cmte/frmembarque.xhtml"></p:menuitem>
+
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Período"
+							url="../Tripulante/Cmte/frmembarque.xhtml"></p:menuitem>
+						<p:menuitem value="Tripulante"
+							url="../Tripulante/Cmte/frmembarque.xhtml" disabled="true"></p:menuitem>
+						<p:menuitem value="Rebocador"
+							url="../Tripulante/Cmte/frmembarque.xhtml" disabled="true"></p:menuitem>
+					</p:submenu>
+
+				</p:submenu>
+
+				<p:submenu label="Bandalho">
+					<p:menuitem value="Convés" url="../Tripulante/frmlivroconves.xhtml"></p:menuitem>
+					<p:menuitem value="Máquinas"
+						url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+				</p:submenu>
+
+				<p:submenu label="Passagem Serviço">
+					<p:submenu label="Comando">
+						<p:menuitem value="Gerar" url="../Tripulante/frmrequisicao.xhtml"></p:menuitem>
+						<p:menuitem value="Receber"
+							url="../Tripulante/frmrequisicaobx.xhtml"></p:menuitem>
+
+						<p:submenu label="Relátorios">
+							<p:menuitem value="Turno" url="../Tripulante/frmrequisicao.xhtml"></p:menuitem>
+							<p:menuitem value="Período"
+								url="../Tripulante/frmrequisicao.xhtml" disabled="true"></p:menuitem>
+						</p:submenu>
+
+					</p:submenu>
+
+					<p:submenu label="Máquinas">
+						<p:menuitem value="Gerar" url="../Tripulante/frmrequisicao.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Receber"
+							url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+						<p:submenu label="Relátorios">
+							<p:menuitem value="Turno" url="../Tripulante/frmrequisicao.xhtml"
+								disabled="true"></p:menuitem>
+							<p:menuitem value="Período"
+								url="../Tripulante/frmrequisicao.xhtml" disabled="true"></p:menuitem>
+						</p:submenu>
+					</p:submenu>
+
+				</p:submenu>
+
+				<p:submenu label="Solicitações">
+					<p:submenu label="Material">
+						<p:menuitem value="Nova" url="../Tripulante/frmrequisicao.xhtml"></p:menuitem>
+						<p:menuitem value="Baixar"
+							url="../Tripulante/frmrequisicaobx.xhtml"></p:menuitem>
+						<p:menuitem value="Cancelar"
+							url="../Tripulante/frmrequisicaoesc.xhtml" disabled="true"></p:menuitem>
+
+					</p:submenu>
+
+					<p:submenu label="Serviços">
+						<p:menuitem value="Nova" url="../Tripulante/frmrequisicao.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Baixar"
+							url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+						<p:menuitem value="Cancelar"
+							url="../Tripulante/frmrequisicaoesc.xhtml" disabled="true"></p:menuitem>
+
+					</p:submenu>
+
+					<p:submenu label="Relatórios">
+
+						<p:submenu label="Material">
+							<p:menuitem value="Pendências"
+								url="../Tripulante/frmrequisicaobx.xhtml"></p:menuitem>
+							<p:menuitem value="Período"
+								url="../Tripulante/frmrequisicaobx.xhtml"></p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Serviços">
+							<p:menuitem value="Pendências"
+								url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+							<p:menuitem value="Período"
+								url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+							<p:menuitem value="Espelho"
+								url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+
+						</p:submenu>
+
+					</p:submenu>
+				</p:submenu>
+
+				<p:submenu label="Remessa de Material">
+
+					<p:menuitem value="Transferência"
+						url="../Tripulante/frmrequisicao.xhtml"></p:menuitem>
+
+					<p:menuitem value="Solicitação de Material"
+						url="../Tripulante/frmremessasm.xhtml"></p:menuitem>
+
+					<p:menuitem value="Concerto"
+						url="../Tripulante/frmrequisicao.xhtml"></p:menuitem>
+
+					<p:submenu label="Relatórios">
+
+						<p:menuitem value="Período"
+							url="../Tripulante/frmrequisicaobx.xhtml" disabled="true"></p:menuitem>
+
+					</p:submenu>
+
+				</p:submenu>
+
+				<p:submenu label="Inventário">
+					<p:menuitem value="Ajuste" url="../Tripulante/frmrequisicao.xhtml"
+						disabled="true"></p:menuitem>
+
+					<p:menuitem value="Relatórios"
+						url="../Tripulante/frmremessasm.xhtml" disabled="true"></p:menuitem>
+				</p:submenu>
+
+			</p:submenu>
+
+			<p:submenu label="Operações">
+
+				<p:submenu label="Rebocadores">
+					<p:menuitem value="Cadastro" url="../Operacoes/frmrebocador.xhtml"></p:menuitem>
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Base" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Situação" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+
+					</p:submenu>
+				</p:submenu>
+
+				<p:submenu label="Embarcações">
+					<p:menuitem value="Cadastro"
+						url="../Operacoes/frmembarcacoes.xhtml"></p:menuitem>
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Armador"
+							url="../Operacoes/frmembarcacoes.xhtml" disabled="true"></p:menuitem>
+					</p:submenu>
+				</p:submenu>
+
+				<p:submenu label="Tripulantes">
+					<p:menuitem value="Cadastro" url="../Operacoes/frmtripulante.xhtml"></p:menuitem>
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Base" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Rebocador"
+							url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+						<p:menuitem value="Situação" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Categoria"
+							url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+					</p:submenu>
+				</p:submenu>
+
+				<p:submenu label="Armador">
+					<p:menuitem value="Cadastro" url="../Operacoes/frmrebocador.xhtml"
+						disabled="true"></p:menuitem>
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Relação" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Situação" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+
+					</p:submenu>
+				</p:submenu>
+
+				<p:submenu label="Diversos">
+					<p:submenu label="Cadastro">
+						<p:menuitem value="Prático" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Locais" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Manobras" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Categoria Maritimo"
+							url="../Operacoes/frmrebocador.xhtml" disabled="true"></p:menuitem>
+						<p:menuitem value="" url="../Operacoes/frmrebocador.xhtml"
+							disabled="true"></p:menuitem>
+					</p:submenu>
+				</p:submenu>
+
+				<p:menuitem value="Programação"
+					url="../Operacoes/frmtripulante.xhtml" disabled="true"></p:menuitem>
+
+			</p:submenu>
+
+			<p:submenu label="Pessoal">
+
+				<p:menuitem value="Funcionário" url="../Adm/frmusuario.xhtml"></p:menuitem>
+				<p:menuitem value="Planilha Horas" url="../Adm/frmusuario.xhtml"
+					disabled="true"></p:menuitem>
+				<p:menuitem value="Ponto" url="../Adm/frmusuario.xhtml"
+					disabled="true"></p:menuitem>
+				<p:submenu label="Relatórios">
+
+				</p:submenu>
+
+			</p:submenu>
+
+			<p:submenu label="Manutenção">
+
+				<p:submenu label="Insumos">
+					<p:menuitem value="Cadastro" url="../Manutencao/frmcadinsumo.xhtml"></p:menuitem>
+
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Insumos" url="../Manutencao/frmcadinsumo.xhtml"
+							disabled="true"></p:menuitem>
+						<p:menuitem value="Pendência"
+							url="../Manutencao/frmrlpendinsumo.xhtml"></p:menuitem>
+					</p:submenu>
+
+				</p:submenu>
+
+				<p:submenu label="Serviços">
+					<p:menuitem value="Cadastro"
+						url="../Manutencao/frmcadservicos.xhtml" disabled="true"></p:menuitem>
+
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Servicos"
+							url="../Manutencao/frmcadinsumo.xhtml" disabled="true"></p:menuitem>
+						<p:menuitem value="Pendência"
+							url="../Manutencao/frmrlpendinsumo.xhtml" disabled="true"></p:menuitem>
+					</p:submenu>
+
+				</p:submenu>
+
+			</p:submenu>
+
+			<p:submenu label="Gerência">
+				<p:submenu label="Relatórios Gerenciais">
+					<p:menuitem value="Consumo" url="../Manutencao/frmcadinsumo.xhtml"
+						disabled="true"></p:menuitem>
+
+					<p:menuitem value="Manobras" url="../Manutencao/frmcadinsumo.xhtml"
+						disabled="true"></p:menuitem>
+
+					<p:menuitem value="Solicitações"
+						url="../Manutencao/frmcadinsumo.xhtml" disabled="true"></p:menuitem>
+				</p:submenu>
+			</p:submenu>
+
+
+
+		</p:menubar>
+	</div>
+
+	<h:form>
+
+		<div id="formularios">
+			<p:panel header="Cadastro de Embarques">
+
+				<p:messages>
+				</p:messages>
+
+				<p:tabView>
+					<p:tab title="Tripulante">
+
+						<p:panelGrid columns="2" styleClass="semBorda">
+
+							<p:outputLabel value="Tripulante"></p:outputLabel>
+							<p:selectOneMenu value="#{embarqueBean.tripulanteEmbarque}"
+								converter="#{tripulanteConverter}" id="tripulanteembarque">
+
+								<f:selectItem itemLabel="Selecione" />
+
+								<f:selectItems value="#{embarqueBean.tripulanteList}"
+									var="tripulante"
+									itemLabel="#{tripulante.usuario.matricula} - #{tripulante.usuario.nome}">
+								</f:selectItems>
+
+							</p:selectOneMenu>
+
+						</p:panelGrid>
+
+						<p:panelGrid columns="2" styleClass="semBorda">
+
+							<p:panelGrid columns="3">
+
+								<f:facet name="header">Embarque</f:facet>
+								<p:outputLabel value="Local"></p:outputLabel>
+								<p:outputLabel value="Hora"></p:outputLabel>
+								<p:outputLabel value="Data"></p:outputLabel>
+
+								<p:selectOneMenu
+									value="#{embarqueBean.embarqueTripulante.localembarque}"
+									converter="#{locaisConverter}">
+
+									<f:selectItem itemLabel="Selecione" />
+
+									<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+										itemLabel="#{locais.cd_local} - #{locais.nome}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:inputMask
+									value="#{embarqueBean.embarqueTripulante.hrembarque}" size="5"
+									mask="99:99"></p:inputMask>
+								<p:inputText value="#{embarqueBean.data}" size="10"></p:inputText>
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="3">
+
+								<f:facet name="header">Desenbarque</f:facet>
+								<p:outputLabel value="Local"></p:outputLabel>
+								<p:outputLabel value="Hora"></p:outputLabel>
+								<p:outputLabel value="Data"></p:outputLabel>
+
+								<p:selectOneMenu
+									value="#{embarqueBean.embarqueTripulante.localdesenbarque}"
+									converter="#{locaisConverter}">
+
+									<f:selectItem itemLabel="Selecione" />
+
+									<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+										itemLabel="#{locais.cd_local} - #{locais.nome}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:inputMask
+									value="#{embarqueBean.embarqueTripulante.hrdesenbarque}"
+									size="4" mask="99:99"></p:inputMask>
+								<p:inputMask
+									value="#{embarqueBean.embarqueTripulante.desenbarque}" size="8"
+									mask="99/99/9999"></p:inputMask>
+
+							</p:panelGrid>
+						</p:panelGrid>
+
+					</p:tab>
+
+					<p:tab title="Funcionário">
+
+						<p:panelGrid columns="2" styleClass="semBorda">
+
+							<p:outputLabel value="Funcionários"></p:outputLabel>
+							<p:selectOneMenu
+								value="#{embarqueBean.embarqueFuncionario.usuario}"
+								converter="#{usuarioConverter}">
+
+								<f:selectItem itemLabel="Selecione" />
+
+								<f:selectItems value="#{embarqueBean.funcionarioList}"
+									var="funcionario"
+									itemLabel="#{funcionario.matricula} - #{funcionario.nome}">
+								</f:selectItems>
+
+							</p:selectOneMenu>
+
+						</p:panelGrid>
+
+						<p:panelGrid columns="2" styleClass="semBorda">
+
+							<p:panelGrid columns="3">
+
+								<f:facet name="header">Embarque</f:facet>
+								<p:outputLabel value="Local"></p:outputLabel>
+								<p:outputLabel value="Hora"></p:outputLabel>
+								<p:outputLabel value="Data"></p:outputLabel>
+
+								<p:selectOneMenu
+									value="#{embarqueBean.embarqueFuncionario.localembarque}"
+									converter="#{locaisConverter}">
+
+									<f:selectItem itemLabel="Selecione" />
+
+									<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+										itemLabel="#{locais.cd_local} - #{locais.nome}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:inputMask
+									value="#{embarqueBean.embarqueFuncionario.hrembarque}" size="5"
+									mask="99:99"></p:inputMask>
+								<p:inputText value="#{embarqueBean.data}" size="10"></p:inputText>
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="3">
+
+								<f:facet name="header">Desenbarque</f:facet>
+
+								<p:outputLabel value="Local"></p:outputLabel>
+								<p:outputLabel value="Hora"></p:outputLabel>
+								<p:outputLabel value="Data"></p:outputLabel>
+
+
+								<p:selectOneMenu
+									value="#{embarqueBean.embarqueFuncionario.localdesenbarque}"
+									converter="#{locaisConverter}">
+
+									<f:selectItem itemLabel="Selecione" />
+
+									<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+										itemLabel="#{locais.cd_local} - #{locais.nome}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:inputMask
+									value="#{embarqueBean.embarqueFuncionario.hrdesenbarque}"
+									size="4" mask="99:99"></p:inputMask>
+								<p:inputMask
+									value="#{embarqueBean.embarqueFuncionario.desenbarque}"
+									size="8" mask="99/99/9999"></p:inputMask>
+
+							</p:panelGrid>
+						</p:panelGrid>
+
+					</p:tab>
+
+					<p:tab title="Outros" disabled="true">
+
+						<p:panelGrid columns="2" styleClass="semBorda">
+
+							<p:outputLabel value="Empresa"></p:outputLabel>
+							<p:inputText
+								value="#{embarqueBean.embarqueOutros.prestadorServico.empresa}"
+								size="50"></p:inputText>
+							<p:outputLabel value="Nome"></p:outputLabel>
+							<p:inputText
+								value="#{embarqueBean.embarqueOutros.prestadorServico.nome}"
+								size="50"></p:inputText>
+							<p:outputLabel value="Documento"></p:outputLabel>
+							<p:inputText
+								value="#{embarqueBean.embarqueOutros.prestadorServico.documento}"></p:inputText>
+
+						</p:panelGrid>
+
+						<p:panelGrid columns="2" styleClass="semBorda">
+
+							<p:panelGrid columns="3">
+
+								<f:facet name="header">Embarque</f:facet>
+								<p:outputLabel value="Local"></p:outputLabel>
+								<p:outputLabel value="Hora"></p:outputLabel>
+								<p:outputLabel value="Data"></p:outputLabel>
+
+								<p:selectOneMenu
+									value="#{embarqueBean.embarqueOutros.localembarque}"
+									converter="#{locaisConverter}">
+
+									<f:selectItem itemLabel="Selecione" />
+
+									<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+										itemLabel="#{locais.cd_local} - #{locais.nome}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:inputMask value="#{embarqueBean.embarqueOutros.hrembarque}"
+									size="5" mask="99:99"></p:inputMask>
+								<p:inputText value="#{embarqueBean.data}" size="10"></p:inputText>
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="3">
+
+								<f:facet name="header">Desenbarque</f:facet>
+
+								<p:outputLabel value="Local"></p:outputLabel>
+								<p:outputLabel value="Hora"></p:outputLabel>
+								<p:outputLabel value="Data"></p:outputLabel>
+
+
+								<p:selectOneMenu
+									value="#{embarqueBean.embarqueOutros.localdesenbarque}"
+									converter="#{locaisConverter}">
+
+									<f:selectItem itemLabel="Selecione" />
+
+									<f:selectItems value="#{locaisBean.locaisList}" var="locais"
+										itemLabel="#{locais.cd_local} - #{locais.nome}">
+									</f:selectItems>
+								</p:selectOneMenu>
+
+								<p:inputMask
+									value="#{embarqueBean.embarqueOutros.hrdesenbarque}" size="4"
+									mask="99:99"></p:inputMask>
+								<p:inputMask value="#{embarqueBean.embarqueOutros.desenbarque}"
+									size="8" mask="99/99/9999"></p:inputMask>
+
+							</p:panelGrid>
+						</p:panelGrid>
+
+					</p:tab>
+				</p:tabView>
+
+				<br />
+
+				<f:facet name="footer">
+
+					<p:commandButton value="Salvar" action="#{embarqueBean.salvar}"
+						update="@form"></p:commandButton>
+
+					<p:commandButton value="Cancelar" action="#{embarqueBean.cancelar}"
+						update="@form"></p:commandButton>
+
+
+				</f:facet>
+
+			</p:panel>
+
+			<p:panel header="Lista de Embarques">
+
+				<p:tabView>
+
+					<p:tab title="Tripulantes">
+
+						<p:dataTable value="#{embarqueBean.embarqueList}"
+							var="embarqueTripulante" styleClass="pg1">
+
+
+							<p:column headerText="Cd">
+								<h:outputText value="#{embarqueTripulante.cd_embarque}" />
+							</p:column>
+
+
+							<p:column headerText="Tripulante">
+								<h:outputText value="#{embarqueTripulante.usuario.nome}" />
+							</p:column>
+
+							<p:column headerText="Local Embarque">
+								<h:outputText value="#{embarqueTripulante.localembarque.nome}" />
+							</p:column>
+							<p:column headerText="Hora Embarque">
+								<h:outputText value="#{embarqueTripulante.hrembarque}" />
+							</p:column>
+							<p:column headerText="Data Embarque">
+								<h:outputText value="#{embarqueTripulante.embarque}" />
+							</p:column>
+							<p:column headerText="Local Desenbarque">
+								<h:outputText
+									value="#{embarqueTripulante.localdesenbarque.nome}" />
+							</p:column>
+							<p:column headerText="Hora Desenbarque">
+								<h:outputText value="#{embarqueTripulante.hrdesenbarque}" />
+							</p:column>
+							<p:column headerText="Data Desenbarque">
+								<h:outputText value="#{embarqueTripulante.desenbarque}" />
+							</p:column>
+
+							<p:column headerText="Ação">
+								<p:commandButton icon="ui-icon-pencil" title="Desenbarque"
+									update="@form" oncomplete="confirmacao.show()">
+
+									<f:setPropertyActionListener value="#{embarqueTripulante}"
+										target="#{embarqueBean.embarqueTripulante}" />
+
+									<p:confirmDialog widgetVar="confirmacao"
+										message="Desenbarcar Tripulante ?" header="Aviso"
+										severity="alert" closable="true">
+
+										<p:commandButton title="sim" alt="Sim" value="sim"
+											actionListener="#{embarqueBean.desenbarqueTripulante}"
+											onclick="confirmacao.hide()" ajax="tripulanteembarque">
+										</p:commandButton>
+										<p:commandButton title="Nao" alt="Nao" value="nao"
+											onclick="confirmacao.hide()"></p:commandButton>
+
+									</p:confirmDialog>
+
+
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+
+
+					</p:tab>
+
+					<p:tab title="Funcionários">
+
+						<p:dataTable value="#{embarqueBean.embarqueFuncionarioList}"
+							var="embarqueFuncionario" styleClass="pg1">
+
+							<p:column headerText="Funcionario">
+								<h:outputText value="#{embarqueFuncionario.usuario.nome}" />
+							</p:column>
+							<p:column headerText="Local Embarque">
+								<h:outputText value="#{embarqueFuncionario.localembarque.nome}" />
+							</p:column>
+							<p:column headerText="Hora Embarque">
+								<h:outputText value="#{embarqueFuncionario.hrembarque}" />
+							</p:column>
+							<p:column headerText="Data Embarque">
+								<h:outputText value="#{embarqueFuncionario.embarque}" />
+							</p:column>
+							<p:column headerText="Local Desenbarque">
+								<h:outputText
+									value="#{embarqueFuncionario.localdesenbarque.nome}" />
+							</p:column>
+							<p:column headerText="Hora Desenbarque">
+								<h:outputText value="#{embarqueFuncionario.hrdesenbarque}" />
+							</p:column>
+							<p:column headerText="Data Desenbarque">
+								<h:outputText value="#{embarqueFuncionario.desenbarque}" />
+							</p:column>
+
+							<p:column headerText="Ação">
+								<p:commandButton icon="ui-icon-pencil" title="Desenbarque"
+									update="@form">
+
+									<f:setPropertyActionListener value="#{embarqueFuncionario}"
+										target="#{embarqueBean.embarqueFuncionario}" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+
+
+					</p:tab>
+
+					<p:tab title="Outros" disabled="true">
+
+					</p:tab>
+
+				</p:tabView>
+
+			</p:panel>
+
+		</div>
+
+	</h:form>
+
+</body>
+</html>
+
+
+
+
+
